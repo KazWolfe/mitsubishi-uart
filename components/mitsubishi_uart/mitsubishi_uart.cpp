@@ -76,6 +76,16 @@ void MitsubishiUART::sendIfActive(const Packet& packet) {
   if (active_mode) hp_bridge.sendPacket(packet);
 }
 
+void MitsubishiUART::set_last_known_vane_position(SettingsSetRequestPacket::VANE_BYTE state) {
+  if (state == SettingsSetRequestPacket::VANE_SWING) return;
+  this->last_known_vane_position = state;
+}
+
+void MitsubishiUART::set_last_known_hvane_position(SettingsSetRequestPacket::HORIZONTAL_VANE_BYTE state) {
+  if (state == SettingsSetRequestPacket::HV_SWING) return;
+  this->last_known_hvane_position = state;
+}
+
 #define IFACTIVE(dothis) if (active_mode) {dothis}
 #define IFNOTACTIVE(dothis) if (!active_mode) {dothis}
 

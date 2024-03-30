@@ -34,6 +34,9 @@ class MitsubishiUART : public PollingComponent, public climate::Climate, public 
    */
   MitsubishiUART(uart::UARTComponent *hp_uart_comp);
 
+  SettingsSetRequestPacket::VANE_BYTE last_known_vane_position = SettingsSetRequestPacket::VANE_AUTO;
+  SettingsSetRequestPacket::HORIZONTAL_VANE_BYTE last_known_hvane_position = SettingsSetRequestPacket::HV_CENTER;
+
   // Used to restore state of previous MUART-specific settings (like temperature source or pass-thru mode)
   // Most other climate-state is preserved by the heatpump itself and will be retrieved after connection
   void setup() override;
