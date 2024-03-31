@@ -109,7 +109,8 @@ be about `update_interval` late from their actual time.  Generally the update in
 void MitsubishiUART::update() {
   this->_updateLoopCounter += 1;
 
-  // TODO: Temporarily wait 5 seconds on startup to help with viewing logs
+  // TODO: Temporarily wait 5 seconds on startup to help with viewing logs.
+  // TODO: Move all this into some setup step.
   if (millis() < 5000) {
     return;
   }
@@ -117,6 +118,12 @@ void MitsubishiUART::update() {
   // If we're not yet connected, send off a connection request (we'll check again next update)
   if (!hpConnected) {
     IFACTIVE(hp_bridge.sendPacket(ConnectRequestPacket::instance());)
+    return;
+  }
+
+  // Block until we get our extended capabilities information.
+  if (!_capabilitiesCache.has_value()) {
+    IFACTIVE(hp_bridge.sendPacket(ExtendedConnectRequestPacket::instance());)
     return;
   }
 

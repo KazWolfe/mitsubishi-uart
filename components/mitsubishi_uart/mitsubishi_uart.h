@@ -140,6 +140,8 @@ class MitsubishiUART : public PollingComponent, public climate::Climate, public 
     // used to track inconsistent updates
     uint32_t _updateLoopCounter = 0;
 
+    optional<ExtendedConnectResponsePacket> _capabilitiesCache;
+
     // Preferences
     void save_preferences();
     void restore_preferences();
